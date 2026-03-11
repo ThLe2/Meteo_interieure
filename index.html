@@ -55,6 +55,7 @@
             font-weight: bold;
             animation: pulse 1.5s infinite;
             box-shadow: 0 0 15px rgba(255, 242, 0, 0.5);
+            border-color: #ffd700;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -64,11 +65,10 @@
         .controls {
             display: flex;
             justify-content: center;
-            gap: 15px;
             margin-top: 20px;
         }
         button {
-            background: #3498db;
+            background: #e74c3c;
             color: white;
             border: none;
             padding: 12px 25px;
@@ -78,14 +78,8 @@
             transition: all 0.3s;
         }
         button:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        .refresh-btn {
-            background: #e74c3c;
-        }
-        .refresh-btn:hover {
             background: #c0392b;
+            transform: translateY(-2px);
         }
         .count-display {
             text-align: center;
@@ -93,11 +87,18 @@
             font-size: 18px;
             color: #7f8c8d;
         }
+        .instructions {
+            text-align: center;
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Tableau d'Émotions avec Surbrillance Aléatoire</h1>
+        <h1>Tableau d'Émotions</h1>
+        <p class="instructions">Les émotions surbrillantes sont sélectionnées aléatoirement</p>
 
         <div class="count-display" id="countDisplay">
             0 émotion(s) surbrillant(e)s
@@ -108,8 +109,7 @@
         </div>
 
         <div class="controls">
-            <button onclick="highlightRandomEmotions()">Surbrillance Aléatoire</button>
-            <button class="refresh-btn" onclick="resetHighlights()">Réinitialiser</button>
+            <button onclick="resetHighlights()">Réinitialiser la surbrillance</button>
         </div>
     </div>
 
@@ -127,7 +127,7 @@
             "Satisfait", "Irrité", "Terrifié", "Navré", "Troublé", "Rejet"
         ];
 
-        // Afficher toutes les émotions au chargement
+        // Afficher toutes les émotions
         function displayEmotions() {
             const container = document.getElementById('emotionsContainer');
             container.innerHTML = '';
@@ -142,11 +142,8 @@
 
         // Appliquer une surbrillance aléatoire
         function highlightRandomEmotions() {
-            // Réinitialiser les surbrillances existantes
-            resetHighlights();
-
-            // Nombre aléatoire d'émotions à surbriller (entre 3 et 8)
-            const count = Math.floor(Math.random() * 6) + 3;
+            // Nombre aléatoire d'émotions à surbriller (entre 5 et 10)
+            const count = Math.floor(Math.random() * 6) + 5;
 
             // Mélanger le tableau pour une sélection aléatoire
             const shuffled = [...allEmotions].sort(() => 0.5 - Math.random());
@@ -177,11 +174,15 @@
             });
             document.getElementById('countDisplay').textContent =
                 '0 émotion(s) surbrillant(e)s';
+
+            // Réappliquer une nouvelle surbrillance aléatoire après réinitialisation
+            setTimeout(highlightRandomEmotions, 300);
         }
 
-        // Initialisation
+        // Initialisation avec surbrillance automatique
         window.onload = function() {
             displayEmotions();
+            highlightRandomEmotions();
         };
     </script>
 </body>
