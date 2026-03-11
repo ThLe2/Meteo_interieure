@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau d'Émotions avec Surbrillance Aléatoire</title>
+    <title>Tableau d'Émotions avec Surbrillance Auto-Aléatoire</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -43,43 +43,19 @@
             border-radius: 25px;
             font-size: 16px;
             transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .emotion:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .highlight {
             background: linear-gradient(135deg, #fff200, #ffd700);
             color: #d63031;
             font-weight: bold;
-            animation: pulse 1.5s infinite;
             box-shadow: 0 0 15px rgba(255, 242, 0, 0.5);
             border-color: #ffd700;
+            animation: pulse 1s;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
-        }
-        .controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        button {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            font-size: 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        button:hover {
-            background: #c0392b;
-            transform: translateY(-2px);
         }
         .count-display {
             text-align: center;
@@ -98,7 +74,7 @@
 <body>
     <div class="container">
         <h1>Tableau d'Émotions</h1>
-        <p class="instructions">Les émotions surbrillantes sont sélectionnées aléatoirement</p>
+        <p class="instructions">Les émotions surbrillantes changent automatiquement toutes les 3 secondes</p>
 
         <div class="count-display" id="countDisplay">
             0 émotion(s) surbrillant(e)s
@@ -106,10 +82,6 @@
 
         <div class="emotions-container" id="emotionsContainer">
             <!-- Les émotions seront insérées ici par JavaScript -->
-        </div>
-
-        <div class="controls">
-            <button onclick="resetHighlights()">Réinitialiser la surbrillance</button>
         </div>
     </div>
 
@@ -127,6 +99,9 @@
             "Satisfait", "Irrité", "Terrifié", "Navré", "Troublé", "Rejet"
         ];
 
+        // Variables globales
+        let highlightInterval;
+
         // Afficher toutes les émotions
         function displayEmotions() {
             const container = document.getElementById('emotionsContainer');
@@ -140,10 +115,21 @@
             });
         }
 
+        // Réinitialiser toutes les surbrillances
+        function resetHighlights() {
+            const emotions = document.querySelectorAll('.emotion');
+            emotions.forEach(emotion => {
+                emotion.classList.remove('highlight');
+            });
+        }
+
         // Appliquer une surbrillance aléatoire
         function highlightRandomEmotions() {
-            // Nombre aléatoire d'émotions à surbriller (entre 5 et 10)
-            const count = Math.floor(Math.random() * 6) + 5;
+            // Réinitialiser les surbrillances existantes
+            resetHighlights();
+
+            // Nombre aléatoire d'émotions à surbriller (entre 2 et 5)
+            const count = Math.floor(Math.random() * 4) + 2;
 
             // Mélanger le tableau pour une sélection aléatoire
             const shuffled = [...allEmotions].sort(() => 0.5 - Math.random());
@@ -166,25 +152,16 @@
                 `${count} émotion(s) surbrillant(e)s`;
         }
 
-        // Réinitialiser toutes les surbrillances
-        function resetHighlights() {
-            const emotions = document.querySelectorAll('.emotion');
-            emotions.forEach(emotion => {
-                emotion.classList.remove('highlight');
-            });
-            document.getElementById('countDisplay').textContent =
-                '0 émotion(s) surbrillant(e)s';
-
-            // Réappliquer une nouvelle surbrillance aléatoire après réinitialisation
-            setTimeout(highlightRandomEmotions, 300);
-        }
-
-        // Initialisation avec surbrillance automatique
+        // Initialisation
         window.onload = function() {
             displayEmotions();
             highlightRandomEmotions();
+
+            // Changer la surbrillance toutes les 3 secondes
+            highlightInterval = setInterval(highlightRandomEmotions, 3000);
         };
     </script>
 </body>
 </html>
+
 
