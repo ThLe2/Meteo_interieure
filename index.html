@@ -3,176 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Générateur d'Émotions Aléatoires</title>
+    <title>Tableau d'Émotions avec Surbrillance Aléatoire</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f0f8ff, #e6f3ff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
         }
         .container {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 30px;
             width: 90%;
-            max-width: 600px;
-            text-align: center;
+            max-width: 800px;
+            margin-bottom: 20px;
         }
         h1 {
             color: #2c3e50;
+            text-align: center;
             margin-top: 0;
         }
-        .emotion-display {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 30px 0;
-            color: #3498db;
-            min-height: 100px;
+        .emotions-container {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
+        }
+        .emotion {
+            padding: 12px 18px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .emotion:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .highlight {
+            background: linear-gradient(135deg, #fff200, #ffd700);
+            color: #d63031;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+            box-shadow: 0 0 15px rgba(255, 242, 0, 0.5);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
         }
         button {
             background: #3498db;
             color: white;
             border: none;
             padding: 12px 25px;
-            font-size: 18px;
+            font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
         button:hover {
             background: #2980b9;
+            transform: translateY(-2px);
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            display: none;
+        .refresh-btn {
+            background: #e74c3c;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+        .refresh-btn:hover {
+            background: #c0392b;
+        }
+        .count-display {
             text-align: center;
-        }
-        th {
-            background: #f2f2f2;
-        }
-        .toggle-button {
-            background: #9b59b6;
-            margin-top: 20px;
-        }
-        .toggle-button:hover {
-            background: #8e44ad;
+            margin: 15px 0;
+            font-size: 18px;
+            color: #7f8c8d;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Générateur d'Émotions Aléatoires</h1>
+        <h1>Tableau d'Émotions avec Surbrillance Aléatoire</h1>
 
-        <div class="emotion-display" id="emotionDisplay">
-            <!-- L'émotion aléatoire apparaîtra ici -->
+        <div class="count-display" id="countDisplay">
+            0 émotion(s) surbrillant(e)s
         </div>
 
-        <button onclick="showRandomEmotion()">Nouvelle Émotion</button>
-        <button class="toggle-button" onclick="toggleTable()">Afficher/Masquer le tableau</button>
+        <div class="emotions-container" id="emotionsContainer">
+            <!-- Les émotions seront insérées ici par JavaScript -->
+        </div>
 
-        <table id="emotionTable">
-            <tr>
-                <th>Colonne 1</th>
-                <th>Colonne 2</th>
-                <th>Colonne 3</th>
-                <th>Colonne 4</th>
-                <th>Colonne 5</th>
-                <th>Colonne 6</th>
-            </tr>
-            <tr>
-                <td>Amoureux</td>
-                <td>Agacé</td>
-                <td>Angoissé</td>
-                <td>Abattu</td>
-                <td>Ébahi</td>
-                <td>Aigri</td>
-            </tr>
-            <tr>
-                <td>Content</td>
-                <td>Agité</td>
-                <td>Anxieux</td>
-                <td>Accablé</td>
-                <td>Émerveillé</td>
-                <td>Amer</td>
-            </tr>
-            <tr>
-                <td>Enchanté</td>
-                <td>Agressif</td>
-                <td>Craintif</td>
-                <td>Affligé</td>
-                <td>Enthousiaste</td>
-                <td>Aversion</td>
-            </tr>
-            <tr>
-                <td>Enjoué</td>
-                <td>Contrarié</td>
-                <td>Effrayé</td>
-                <td>Blessé</td>
-                <td>Étonné</td>
-                <td>Blessé</td>
-            </tr>
-            <tr>
-                <td>Euphorique</td>
-                <td>Exaspéré</td>
-                <td>Inquiet</td>
-                <td>Chagriné</td>
-                <td>Impatient</td>
-                <td>Écoeuré</td>
-            </tr>
-            <tr>
-                <td>Excité</td>
-                <td>Froissé</td>
-                <td>Horrifié</td>
-                <td>Déçu</td>
-                <td>Secoué</td>
-                <td>Intimidé</td>
-            </tr>
-            <tr>
-                <td>Passionné</td>
-                <td>Furieux</td>
-                <td>Méfiant</td>
-                <td>Désespéré</td>
-                <td>Sidéré</td>
-                <td>Irritable</td>
-            </tr>
-            <tr>
-                <td>Réjoui</td>
-                <td>Hostile</td>
-                <td>Préoccupé</td>
-                <td>Désolé</td>
-                <td>Stupéfait</td>
-                <td>Mépris</td>
-            </tr>
-            <tr>
-                <td>Satisfait</td>
-                <td>Irrité</td>
-                <td>Terrifié</td>
-                <td>Navré</td>
-                <td>Troublé</td>
-                <td>Rejet</td>
-            </tr>
-        </table>
+        <div class="controls">
+            <button onclick="highlightRandomEmotions()">Surbrillance Aléatoire</button>
+            <button class="refresh-btn" onclick="resetHighlights()">Réinitialiser</button>
+        </div>
     </div>
 
     <script>
-        // Liste de toutes les émotions du tableau
-        const emotions = [
+        // Liste complète de toutes les émotions
+        const allEmotions = [
             "Amoureux", "Agacé", "Angoissé", "Abattu", "Ébahi", "Aigri",
             "Content", "Agité", "Anxieux", "Accablé", "Émerveillé", "Amer",
             "Enchanté", "Agressif", "Craintif", "Affligé", "Enthousiaste", "Aversion",
@@ -184,25 +127,63 @@
             "Satisfait", "Irrité", "Terrifié", "Navré", "Troublé", "Rejet"
         ];
 
-        // Fonction pour afficher une émotion aléatoire
-        function showRandomEmotion() {
-            const randomIndex = Math.floor(Math.random() * emotions.length);
-            const emotion = emotions[randomIndex];
-            document.getElementById('emotionDisplay').textContent = emotion;
+        // Afficher toutes les émotions au chargement
+        function displayEmotions() {
+            const container = document.getElementById('emotionsContainer');
+            container.innerHTML = '';
+
+            allEmotions.forEach(emotion => {
+                const emotionElement = document.createElement('div');
+                emotionElement.className = 'emotion';
+                emotionElement.textContent = emotion;
+                container.appendChild(emotionElement);
+            });
         }
 
-        // Fonction pour afficher/masquer le tableau
-        function toggleTable() {
-            const table = document.getElementById('emotionTable');
-            if (table.style.display === 'none') {
-                table.style.display = 'table';
-            } else {
-                table.style.display = 'none';
-            }
+        // Appliquer une surbrillance aléatoire
+        function highlightRandomEmotions() {
+            // Réinitialiser les surbrillances existantes
+            resetHighlights();
+
+            // Nombre aléatoire d'émotions à surbriller (entre 3 et 8)
+            const count = Math.floor(Math.random() * 6) + 3;
+
+            // Mélanger le tableau pour une sélection aléatoire
+            const shuffled = [...allEmotions].sort(() => 0.5 - Math.random());
+
+            // Sélectionner les premières 'count' émotions après mélange
+            const selectedEmotions = shuffled.slice(0, count);
+
+            // Appliquer la classe highlight
+            selectedEmotions.forEach(emotion => {
+                const elements = document.querySelectorAll('.emotion');
+                elements.forEach(el => {
+                    if (el.textContent === emotion) {
+                        el.classList.add('highlight');
+                    }
+                });
+            });
+
+            // Mettre à jour le compteur
+            document.getElementById('countDisplay').textContent =
+                `${count} émotion(s) surbrillant(e)s`;
         }
 
-        // Afficher une émotion aléatoire au chargement de la page
-        window.onload = showRandomEmotion;
+        // Réinitialiser toutes les surbrillances
+        function resetHighlights() {
+            const emotions = document.querySelectorAll('.emotion');
+            emotions.forEach(emotion => {
+                emotion.classList.remove('highlight');
+            });
+            document.getElementById('countDisplay').textContent =
+                '0 émotion(s) surbrillant(e)s';
+        }
+
+        // Initialisation
+        window.onload = function() {
+            displayEmotions();
+        };
     </script>
 </body>
 </html>
+
